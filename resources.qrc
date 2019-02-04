@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/plugins/fix_lambert72">
+    <file>icon22.png</file>
+  </qresource>
+</RCC>

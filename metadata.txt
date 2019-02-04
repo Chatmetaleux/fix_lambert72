@@ -1,0 +1,45 @@
+# This file contains metadata for your plugin. Since 
+# version 2.0 of QGIS this is the proper way to supply 
+# information about a plugin. The old method of 
+# embedding metadata in __init__.py will 
+# is no longer supported since version 2.0.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=GxABT - FixLambert72
+qgisMinimumVersion=3.0
+description=Fix and transform Lambert72 coordinates from WGS84 for Belgium area (specially used for Emlid REACH RTK). 
+    
+	
+version=0.1
+author=Samuel Quevauvillers
+email=samuel.quevauvillers@uliege.be
+
+about=This plugin does 2 things: 
+    - uses a correction grid to fix calculated Lambert72 coordinates (compared to knew locations)
+    - uses a correction grid to convert ellipsoidal height (Hetrs89) to orthometric altitude ("altitude orthométrique référencée au Deuxième Nivellement Général")
+    
+	ULiège - GxABT ; Gestion des ressources forestières
+
+tracker= 
+repository= 
+# End of mandatory metadata
+
+# Recommended items:
+
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=lb72, l72, lambert72
+
+homepage=http://www.gembloux.ulg.ac.be/gf
+category=Vector
+icon=icon22.png
+# experimental flag
+experimental=True
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+

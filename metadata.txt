@@ -22,8 +22,8 @@ about=This plugin does 2 things:
     
 	ULiège - GxABT ; Gestion des ressources forestières
 
-tracker= 
-repository= 
+tracker=https://github.com/Chatmetaleux/fix_lambert72/issues
+repository=https://github.com/Chatmetaleux/fix_lambert72
 # End of mandatory metadata
 
 # Recommended items:

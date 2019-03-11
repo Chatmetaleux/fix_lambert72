@@ -104,7 +104,10 @@ class fix_lambert72_core:
 		xform = QgsCoordinateTransform(crsSrc, crsDest, QgsProject.instance())
 		
 		for feat in layerToConvert.getFeatures():
-			pt=feat.geometry().asPoint()
+			if not feat.hasGeometry():
+				continue;
+			geom=feat.geometry()
+			pt=geom.asPoint()
 			
 			ptL72 = xform.transform(pt)
 			
@@ -120,6 +123,11 @@ class fix_lambert72_core:
 			rx = int((x - 20000)/2000 + 0.5)
 			ry = int((y - 20000)/2000 + 0.5)
 					
+			if ry<0 or ry>=len(tabyx):
+				raise Exception("Error index out of bounds","ry="+str(ry))
+			if rx<0 or rx>=len(tabyx[ry]):
+				raise Exception("Error index out of bounds","rx="+str(rx))
+			
 			corr=tabyx[ry][rx]
 			
 			cx = x + float(corr[0])
@@ -127,15 +135,19 @@ class fix_lambert72_core:
 			
 			#get z correction
 			fs=feat.attributes()
-			
-			
 				
-			ss=feat[colonne].split(" ")
+			s=feat[colonne]
+			if s==NULL:
+				continue;
+				
+			ss=str(s).split(" ")
 			z=0
 			if len(ss)==1:
 				z=float(ss[0])
 			else:
 				z=float(ss[2])
+			if z=="":
+				continue;
 			# print "z=%s" % z
 			x=pt.x()
 			y=pt.y()
@@ -143,7 +155,7 @@ class fix_lambert72_core:
 			rx = int((x - 1)/0.01666667 + 0.5)
 			ry = int((y - 48.5)/0.01666667 + 0.5)
 					
-			corrZ=tabz[rx][ry]
+			corrZ=tabz[ry][rx]
 			fs.append(z-corrZ)
 			
 			fet = QgsFeature()
@@ -192,7 +204,10 @@ class fix_lambert72_core:
 		vl.startEditing()
 		
 		for feat in layerToConvert.getFeatures():
-			pt=feat.geometry().asPoint()
+			if not feat.hasGeometry():
+				continue;
+			geom=feat.geometry()
+			pt=geom.asPoint()
 			x=pt.x()
 			y=pt.y()
 			
@@ -204,6 +219,12 @@ class fix_lambert72_core:
 			rx = int((x - 20000)/2000 + 0.5)
 			ry = int((y - 20000)/2000 + 0.5)
 					
+
+			if ry<0 or ry>=len(tabyx):
+				raise Exception("Error index out of bounds","ry="+str(ry))
+			if rx<0 or rx>=len(tabyx[ry]):
+				raise Exception("Error index out of bounds","rx="+str(rx))
+			
 			corr=tabyx[ry][rx]
 			
 			cx = x + float(corr[0])
@@ -256,6 +277,8 @@ class fix_lambert72_core:
 		if not _found:
 			raise Exception("Error",self.tr("No column %s flound in attributes table") % colonne)
 		
+		if not layerToConvert.startEditing():
+			raise Exception("Can't edit this layer !");
 		pr = layerToConvert.dataProvider()
 		pr.addAttributes([QgsField("HDNG", QVariant.Double)])
 		layerToConvert.updateFields()
@@ -263,7 +286,10 @@ class fix_lambert72_core:
 		
 		
 		for feat in layerToConvert.getFeatures():
-			pt=feat.geometry().asPoint()
+			if not feat.hasGeometry():
+				continue;
+			geom=feat.geometry()
+			pt=geom.asPoint()
 			x=pt.x()
 			y=pt.y()
 			# print "x=%s  y=%s" % (x,y)
@@ -274,12 +300,18 @@ class fix_lambert72_core:
 				raise Exception('Error WGS84', self.tr('y out of bounds of Belgium'))
 			
 			#get z correction			
-			ss=feat[colonne].split(" ")
+			s=feat[colonne]
+			if s==NULL:
+				continue;
+			
+			ss=str(s).split(" ")
 			z=0
 			if len(ss)==1:
 				z=float(ss[0])
 			else:
 				z=float(ss[2])
+			if z=="":
+				continue;
 			# print "z=%s" % z
 
 			
@@ -287,7 +319,7 @@ class fix_lambert72_core:
 			ry = int((y - 48.5)/0.01666667 + 0.5)
 			# print "ix=%s  iy=%s" % (rx,ry)
 			
-			corrZ=tabz[rx][ry]
+			corrZ=tabz[ry][rx]
 			layerToConvert.dataProvider().changeAttributeValues({ feat.id() : {indice:z-corrZ} })	
 			
 		layerToConvert.commitChanges()

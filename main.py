@@ -166,19 +166,20 @@ class fix_lambert72:
 		ll_polygone = []
 		for layer in layers:
 			#print layer.crs().authid()
-			if layer.wkbType()==QgsWkbTypes.Point:
-				if layer.crs().authid()=="EPSG:4326":
-					ll_pointWGS84.append(layer.name())
-					ll_point.append(layer.name())
-				elif layer.crs().authid()=="EPSG:31370":
-					ll_pointL72.append(layer.name())
-					ll_point.append(layer.name())
-				else:
-					ll_point.append(layer.name())
-			elif layer.wkbType()==QgsWkbTypes.LineString:
-				ll_line.append(layer.name())
-			elif layer.wkbType()==QgsWkbTypes.Polygon:
-				ll_polygone.append(layer.name())
+			if layer.type()==QgsMapLayer.VectorLayer:
+				if layer.wkbType()==QgsWkbTypes.Point:
+					if layer.crs().authid()=="EPSG:4326":
+						ll_pointWGS84.append(layer.name())
+						ll_point.append(layer.name())
+					elif layer.crs().authid()=="EPSG:31370":
+						ll_pointL72.append(layer.name())
+						ll_point.append(layer.name())
+					else:
+						ll_point.append(layer.name())
+				elif layer.wkbType()==QgsWkbTypes.LineString:
+					ll_line.append(layer.name())
+				elif layer.wkbType()==QgsWkbTypes.Polygon:
+					ll_polygone.append(layer.name())
 		
 		self.dlg.cobL72.addItems(ll_pointL72)
 		self.dlg.cobWGSL72.addItems(ll_pointWGS84)

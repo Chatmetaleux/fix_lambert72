@@ -12,7 +12,7 @@ qgisMinimumVersion=3.0
 description=Fix and transform Lambert72 coordinates from WGS84 for Belgium area (specially used for Emlid REACH RTK). 
     
 	
-version=0.1
+version=0.1.1
 author=Samuel Quevauvillers
 email=samuel.quevauvillers@uliege.be
 
@@ -29,7 +29,13 @@ repository=https://github.com/Chatmetaleux/fix_lambert72
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=
+	**0.1.1 bug fix :
+		 - avoid raster bug
+		 - fix Z value with bad x,y index
+		 - avoid empty geometry
+		 - avoid empty Z field
+	**0.1 initial release
 
 # Tags are comma separated with spaces allowed
 tags=lb72, l72, lambert72
